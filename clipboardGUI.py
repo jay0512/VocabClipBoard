@@ -1,7 +1,12 @@
 import Tkinter as tk # use tkinter instead of Tkinter for python3
 from Tkinter import *
+import pyautogui as pya
 
 # GUI using Tkinter
+
+def clipboardNotFoundGUI():
+    msg = "Word Not Found"
+    pya.alert(msg, "My Dictionary")
 
 def clipboardGUI(msg):
     def on_configure(event):
@@ -21,7 +26,7 @@ def clipboardGUI(msg):
     # scrollbary.pack(side=tk.LEFT, fill='y')
     scrollbary.grid(row=0, column=1, sticky="ns")
 
-    scrollbarx = tk.Scrollbar(root, command=canvas.xview)
+    scrollbarx = tk.Scrollbar(root, orient = tk.HORIZONTAL, command=canvas.xview)
     # scrollbarx.pack(side=tk.RIGHT, fill='x')
     scrollbarx.grid(row=1, column=0, sticky="ew")
 
@@ -30,8 +35,8 @@ def clipboardGUI(msg):
     # update scrollregion after starting 'mainloop'
     # when all widgets are in canvas
     canvas.bind('<Configure>', on_configure)
-    canvas.bind_all('<MouseWheel>', lambda event: canvas.yview_scroll(int(-1*(event.delta/120)), "units"))
-    canvas.bind_all('<MouseWheel>', lambda event: canvas.xview_scroll(int(-1*(event.delta/120)), "units"))
+    root.bind_all('<MouseWheel>', lambda event: root.yview_scroll(int(-1*(event.delta/120)), "units"))
+    root.bind_all('<Shift-MouseWheel>', lambda event: root.xview_scroll(int((event.delta/120)), "units"))
     # --- put frame in canvas ---
 
     frame = tk.Frame(canvas)
@@ -41,8 +46,13 @@ def clipboardGUI(msg):
 
     l = tk.Label(frame, text=msg, font=("Helvetica", 11), anchor='nw', justify=LEFT)
     l.pack()
-    # txt = Label(subframe, text=msg, font=("Helvetica", 11), anchor='nw', justify=LEFT)
 
-    # --- start program ---
+    def close_window(): 
+        root.destroy()
 
+    button = tk.Button(frame, text = "Ok", command = close_window)
+    button.pack(side="left", padx=100, pady=4)
+
+
+    root.bind('<Return>', (lambda e, button=button: button.invoke())) # invoke return as close window by calling close_window of button
     root.mainloop()

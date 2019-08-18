@@ -3,7 +3,7 @@ import time
 from PyDictionary import PyDictionary
 from nltk.corpus import wordnet
 import json
-from clipboardGUI import clipboardGUI
+from clipboardGUI import clipboardGUI,clipboardNotFoundGUI
 # import nltk
 # nltk.download('wordnet') #if you want offline database
 
@@ -11,10 +11,27 @@ from clipboardGUI import clipboardGUI
 def copy_clipboard():
     return pyperclip.paste()
 
+def clean_Clipboard(var):
+	# var.strip()  #remove whitespaces from beggining and end
+	return var.split(' ')[0].strip().capitalize() #pick 1st word and capialize
+
 var = copy_clipboard()
-# file1 = open("Words.txt","a") 
+var = clean_Clipboard(var)
+print('var:',var)
+
+if var == '':
+	clipboardNotFoundGUI()
+	exit(0)
+
 dictionary=PyDictionary()
 mean = dictionary.meaning(var)
+
+print('mean',mean)
+
+# if word is not found in PyDIctionary then return not found
+if mean == None :
+	clipboardNotFoundGUI()
+	exit(0)
 
 synonyms = []
 meaning = []
@@ -25,11 +42,6 @@ for syn in wordnet.synsets(var):
 
 print('sysn',synonyms)
 print('means',meaning)
-# syn = str(dictionary.synonym(var))
-# ans = "%s:\n\t%s\n\t%s\n"%(var,str(mean),set(synonyms))
-# ans = "%s:\n\t%s\n\t%s\n"%(var,set(meaning),set(synonyms))
-# print(ans)
-# file1.write(ans)
 
 # Dictionary for JSON data 
 wordDict={}
