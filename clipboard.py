@@ -4,6 +4,7 @@ from PyDictionary import PyDictionary
 from nltk.corpus import wordnet
 import json
 from clipboardGUI import clipboardGUI,clipboardNotFoundGUI
+from clipboardMongo import jsonToMongo
 # import nltk
 # nltk.download('wordnet') #if you want offline database
 
@@ -47,6 +48,7 @@ print('means',meaning)
 wordDict={}
 jsonDict = {}
 wordDict[var]=jsonDict
+jsonDict['VocabWord']=var
 
 # beutify text
 # msg is for printing GUI lable
@@ -58,7 +60,7 @@ if meaning !=[]:
 	for i,val in enumerate(set(meaning),1):
 		msg+="\t %d. %s\n"%(i,val)
 		temp={}
-		temp[i]=val
+		temp[str(i)]=val
 		jsonDict['Noun'].update(temp)
 
 for key,val in mean.items():
@@ -68,7 +70,7 @@ for key,val in mean.items():
 		for i,v in enumerate(val,1):
 			msg+="\t %d. %s\n"%(i,v)
 			temp={}
-			temp[i]=v
+			temp[str(i)]=v
 			jsonDict[key].update(temp)
 
 # for val in nouns:
@@ -78,12 +80,16 @@ jsonDict['Synonyms']={}
 for i,val in enumerate(set(synonyms),1):
 	msg+="\t %d. %s\n"%(i,val)
 	temp={}
-	temp[i]=val
+	temp[str(i)]=val
 	jsonDict['Synonyms'].update(temp)
 
 print(msg)
-print(wordDict)
-with open('Words.js', 'a+') as json_file:
-  json.dump(wordDict, json_file)
+# print(wordDict)
+# print("JSon")
+# print(jsonDict)
+
+jsonToMongo(jsonDict)
+# with open('Words.js', 'a+') as json_file:
+#   json.dump(wordDict, json_file)
 
 clipboardGUI(msg)

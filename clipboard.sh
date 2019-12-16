@@ -1,3 +1,3 @@
 #!/bin/sh
-cd /home/jay/Desktop
-python /home/jay/Desktop/clipboard.py
+cd /home/hinka/Desktop/VocabClipBoard
+python /home/hinka/Desktop/VocabClipBoard/clipboard.py
