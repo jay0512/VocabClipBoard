@@ -10,7 +10,7 @@ first install packages from **requerments.txt**
 
 after that set keyboard shortcut for the **VocabClipBoard** 
 - Go to Settings > Device > Keyboard
-- add shortcut via** '+'**
+- add shortcut via ** '+'**
 - Name your Shortcut
 - command `{Repository Path}/clipboard.sh`
 
