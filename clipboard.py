@@ -5,9 +5,13 @@ from nltk.corpus import wordnet
 import json
 from clipboardGUI import clipboardGUI,clipboardNotFoundGUI
 from clipboardMongo import jsonToMongo
+from options import createOption
+
 # import nltk
 # nltk.download('wordnet') #if you want offline database
 
+
+# Hypernym,hyponym,antonym,random
 # copy content of clipboard to local variable for further process
 def copy_clipboard():
     return pyperclip.paste()
@@ -18,7 +22,7 @@ def clean_Clipboard(var):
 
 var = copy_clipboard()
 var = clean_Clipboard(var)
-print('var:',var)
+# print('var:',var)
 
 if var == '':
 	clipboardNotFoundGUI()
@@ -27,13 +31,14 @@ if var == '':
 dictionary=PyDictionary()
 mean = dictionary.meaning(var)
 
-print('mean',mean)
+# print('mean',mean)
 
 # if word is not found in PyDIctionary then return not found
 if mean == None :
 	clipboardNotFoundGUI()
 	exit(0)
 
+createOption(var)
 synonyms = []
 meaning = []
 for syn in wordnet.synsets(var): 
@@ -41,8 +46,8 @@ for syn in wordnet.synsets(var):
 	for l in syn.lemmas(): 
 		synonyms.append(l.name())
 
-print('sysn',synonyms)
-print('means',meaning)
+# print('sysn',synonyms)
+# print('means',meaning)
 
 # Dictionary for JSON data 
 wordDict={}
@@ -83,12 +88,12 @@ for i,val in enumerate(set(synonyms),1):
 	temp[str(i)]=val
 	jsonDict['Synonyms'].update(temp)
 
-print(msg)
+# print(msg)
 # print(wordDict)
 # print("JSon")
 # print(jsonDict)
 
-jsonToMongo(jsonDict)
+# jsonToMongo(jsonDict)
 # with open('Words.js', 'a+') as json_file:
 #   json.dump(wordDict, json_file)
 

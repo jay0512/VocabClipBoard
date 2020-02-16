@@ -29,13 +29,13 @@ def jsonToMongo(jsonDict):
 		mydb = myclient["VocabWord"]
 		mycol = mydb["Words"]
 		if(findWord(jsonDict["VocabWord"])):
-			print("repeat")
+			# print("repeat")
 			mycol.find_one_and_update({ 'VocabWord':jsonDict["VocabWord"]}, {'$inc':{'OccurrenceCount': 1 }} )
 
 		else:
 			# mycol.insert(json.dumps(jsonDict, cls=JSONEncoder))
 			jsonDict['OccurrenceCount']=0
-			print("Here ",jsonDict)
+			# print("Here ",jsonDict)
 			mycol.insert(jsonDict)
 			print("no repeat")
 	# except:
